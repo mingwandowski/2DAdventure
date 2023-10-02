@@ -1429,7 +1429,7 @@ Tilemap:
       - {fileID: 1759557459, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -1049652721, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 1474532220, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: -4, z: 0}
@@ -2277,6 +2277,7 @@ GameObject:
   - component: {fileID: 610152631}
   - component: {fileID: 610152633}
   - component: {fileID: 610152634}
+  - component: {fileID: 610152635}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2413,6 +2414,19 @@ CapsuleCollider2D:
   m_Offset: {x: -0.05, y: 0.95}
   m_Size: {x: 0.66, y: 1.9}
   m_Direction: 0
+--- !u!114 &610152635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610152630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10162fb5b2268407ab32f257080f8205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputDirection: {x: 0, y: 0}
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
