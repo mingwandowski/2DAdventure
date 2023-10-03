@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private PhysicsCheck physicsCheck;
     public Vector2 inputDirection;
+    public bool walk;
 
     [Header("Movement")]
     public float speed = 200f;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update() {
         inputDirection = inputControl.Gameplay.Move.ReadValue<Vector2>();
+        walk = inputControl.Gameplay.Walk.IsPressed();
     }
 
     private void FixedUpdate() {
@@ -41,7 +43,8 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Move() {
-        rb.velocity = new Vector2(inputDirection.x * speed * Time.deltaTime, rb.velocity.y);
+        float moveSpeed = inputDirection.x * speed * Time.deltaTime;
+        rb.velocity = new Vector2(walk ? moveSpeed / 2 : moveSpeed, rb.velocity.y);
         faceDir = inputDirection.x == 0 ? faceDir : inputDirection.x > 0 ? 1 : -1;
         transform.localScale = new Vector3(faceDir, 1, 1);
     }
