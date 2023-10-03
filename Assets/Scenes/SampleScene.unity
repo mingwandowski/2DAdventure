@@ -1374,7 +1374,7 @@ Tilemap:
       - {fileID: 239634747, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -1719708924, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 215753956, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 6, y: -6, z: 0}
@@ -1495,7 +1495,7 @@ Tilemap:
       - {fileID: 1759557459, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -1049652721, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 1474532220, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: -2, z: 0}
@@ -1693,7 +1693,7 @@ Tilemap:
       - {fileID: 1759557459, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -1049652721, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 1474532220, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: 4, z: 0}
@@ -2277,8 +2277,10 @@ GameObject:
   - component: {fileID: 610152631}
   - component: {fileID: 610152633}
   - component: {fileID: 610152634}
+  - component: {fileID: 610152637}
   - component: {fileID: 610152635}
   - component: {fileID: 610152636}
+  - component: {fileID: 610152638}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2448,6 +2450,39 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   isGround: 0
+--- !u!95 &610152637
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610152630}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 737df76f9859b44bca984981c930fade, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &610152638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610152630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e673dd9a3ca424f0d9e30cde320d5f2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
