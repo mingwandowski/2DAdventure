@@ -1429,7 +1429,7 @@ Tilemap:
       - {fileID: 1759557459, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -1049652721, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 1474532220, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: -4, z: 0}
@@ -1451,7 +1451,7 @@ Tilemap:
       - {fileID: -1257286191, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -989212768, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 1186117903, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 7, y: -4, z: 0}
@@ -1495,7 +1495,7 @@ Tilemap:
       - {fileID: 1759557459, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -1049652721, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 1474532220, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: -2, z: 0}
@@ -1693,7 +1693,7 @@ Tilemap:
       - {fileID: 1759557459, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -1049652721, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 1474532220, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: 4, z: 0}
@@ -2278,6 +2278,7 @@ GameObject:
   - component: {fileID: 610152633}
   - component: {fileID: 610152634}
   - component: {fileID: 610152635}
+  - component: {fileID: 610152636}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2325,7 +2326,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1109215437
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 326641769, guid: 7ed4944f88c7842ba903dc2696ac6d06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2388,7 +2389,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 610152630}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 6014a8ab468b840d79914848e75e5ae4, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2429,6 +2430,24 @@ MonoBehaviour:
   inputDirection: {x: 0, y: 0}
   speed: 290
   jumpForce: 16.5
+--- !u!114 &610152636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 610152630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 810e888e78817434696affab8f2efa98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 0.08
+  bottomOffset: {x: -0.05, y: 0}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  isGround: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -2969,7 +2988,7 @@ GameObject:
   - component: {fileID: 1819971997}
   - component: {fileID: 1819971999}
   - component: {fileID: 1819971998}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
