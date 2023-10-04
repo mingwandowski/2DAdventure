@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     private PhysicsCheck physicsCheck;
     public Vector2 inputDirection;
     public bool walk;
+    public float hurtForce;
+    public bool isHurt;
+    public bool isDead;
 
     [Header("Movement")]
     public float speed = 200f;
@@ -43,6 +46,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Move() {
+        if (isHurt) return;
         float moveSpeed = inputDirection.x * speed * Time.deltaTime;
         rb.velocity = new Vector2(walk ? moveSpeed / 2 : moveSpeed, rb.velocity.y);
         faceDir = inputDirection.x == 0 ? faceDir : inputDirection.x > 0 ? 1 : -1;
@@ -53,5 +57,17 @@ public class PlayerController : MonoBehaviour
     {
         if(physicsCheck.isGround)
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+    }
+
+    public void GetHurt(Transform attacker) {
+        isHurt = true;
+        rb.velocity = Vector2.zero;
+        rb.AddForce((transform.position - attacker.position).normalized * hurtForce, ForceMode2D.Impulse);
+        Debug.Log(attacker.position);
+    }
+
+    public void PlayerDead() {
+        isDead = true;
+        inputControl.Gameplay.Disable();
     }
 }
