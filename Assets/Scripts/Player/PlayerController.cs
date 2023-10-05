@@ -6,26 +6,30 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerInputControl inputControl;
     private Rigidbody2D rb;
     private PhysicsCheck physicsCheck;
-    public Vector2 inputDirection;
-    public bool walk;
-    public float hurtForce;
-    public bool isHurt;
-    public bool isDead;
+    private PlayerAnimation playerAnimation;
 
-    [Header("Movement")]
-    public float speed = 200f;
-    public float jumpForce = 5f;
+    public PlayerInputControl inputControl;
+    public Vector2 inputDirection;
 
     private int faceDir = 1;
+    public float speed = 200f;
+    public float jumpForce = 5f;
+    public float hurtForce;
+
+    public bool isWalk;
+    public bool isHurt;
+    public bool isDead;
+    public bool isAttack;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         physicsCheck = GetComponent<PhysicsCheck>();
+        playerAnimation = GetComponent<PlayerAnimation>();
         inputControl = new PlayerInputControl();
         inputControl.Gameplay.Jump.started += Jump;
+        inputControl.Gameplay.Attack.started += PlayerAttack;
     }
 
     private void OnEnable() {
@@ -38,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update() {
         inputDirection = inputControl.Gameplay.Move.ReadValue<Vector2>();
-        walk = inputControl.Gameplay.Walk.IsPressed();
+        isWalk = inputControl.Gameplay.Walk.IsPressed();
     }
 
     private void FixedUpdate() {
@@ -48,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private void Move() {
         if (isHurt) return;
         float moveSpeed = inputDirection.x * speed * Time.deltaTime;
-        rb.velocity = new Vector2(walk ? moveSpeed / 2 : moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(isWalk ? moveSpeed / 2 : moveSpeed, rb.velocity.y);
         faceDir = inputDirection.x == 0 ? faceDir : inputDirection.x > 0 ? 1 : -1;
         transform.localScale = new Vector3(faceDir, 1, 1);
     }
@@ -57,6 +61,12 @@ public class PlayerController : MonoBehaviour
     {
         if(physicsCheck.isGround)
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+    }
+
+    private void PlayerAttack(InputAction.CallbackContext context)
+    {
+        playerAnimation.PlayAttack();
+        isAttack = true;
     }
 
     public void GetHurt(Transform attacker) {
