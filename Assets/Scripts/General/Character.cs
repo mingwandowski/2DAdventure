@@ -41,7 +41,6 @@ public class Character : MonoBehaviour
         } else {
             TriggerInvulnerable();
             OnTakeDamage?.Invoke(attacker.transform);
-            Debug.Log(OnTakeDamage);
         }
     }
 

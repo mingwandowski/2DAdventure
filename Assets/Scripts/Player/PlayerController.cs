@@ -9,9 +9,13 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private PhysicsCheck physicsCheck;
     private PlayerAnimation playerAnimation;
+    private CapsuleCollider2D collider;
 
     public PlayerInputControl inputControl;
     public Vector2 inputDirection;
+
+    public PhysicsMaterial2D normal;
+    public PhysicsMaterial2D wall;
 
     private int faceDir = 1;
     public float speed = 200f;
@@ -27,6 +31,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         physicsCheck = GetComponent<PhysicsCheck>();
         playerAnimation = GetComponent<PlayerAnimation>();
+        collider = GetComponent<CapsuleCollider2D>();
         inputControl = new PlayerInputControl();
         inputControl.Gameplay.Jump.started += Jump;
         inputControl.Gameplay.Attack.started += PlayerAttack;
@@ -43,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private void Update() {
         inputDirection = inputControl.Gameplay.Move.ReadValue<Vector2>();
         isWalk = inputControl.Gameplay.Walk.IsPressed();
+        CheckState();
     }
 
     private void FixedUpdate() {
@@ -50,7 +56,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Move() {
-        if (isHurt) return;
+        if (isHurt || isAttack) return;
         float moveSpeed = inputDirection.x * speed * Time.deltaTime;
         rb.velocity = new Vector2(isWalk ? moveSpeed / 2 : moveSpeed, rb.velocity.y);
         faceDir = inputDirection.x == 0 ? faceDir : inputDirection.x > 0 ? 1 : -1;
@@ -79,5 +85,9 @@ public class PlayerController : MonoBehaviour
     public void PlayerDead() {
         isDead = true;
         inputControl.Gameplay.Disable();
+    }
+
+    private void CheckState() {
+        collider.sharedMaterial = physicsCheck.isGround ? normal : wall;
     }
 }
