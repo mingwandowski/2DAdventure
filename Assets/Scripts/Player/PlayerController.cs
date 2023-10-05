@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private PhysicsCheck physicsCheck;
     private PlayerAnimation playerAnimation;
-    private CapsuleCollider2D collider;
+    private CapsuleCollider2D coll;
 
     public PlayerInputControl inputControl;
     public Vector2 inputDirection;
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         physicsCheck = GetComponent<PhysicsCheck>();
         playerAnimation = GetComponent<PlayerAnimation>();
-        collider = GetComponent<CapsuleCollider2D>();
+        coll = GetComponent<CapsuleCollider2D>();
         inputControl = new PlayerInputControl();
         inputControl.Gameplay.Jump.started += Jump;
         inputControl.Gameplay.Attack.started += PlayerAttack;
@@ -88,6 +88,6 @@ public class PlayerController : MonoBehaviour
     }
 
     private void CheckState() {
-        collider.sharedMaterial = physicsCheck.isGround ? normal : wall;
+        coll.sharedMaterial = physicsCheck.isGround ? normal : wall;
     }
 }
