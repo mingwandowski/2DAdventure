@@ -80,7 +80,6 @@ public class PlayerController : MonoBehaviour
         isHurt = true;
         rb.velocity = Vector2.zero;
         rb.AddForce((transform.position - attacker.position).normalized * hurtForce, ForceMode2D.Impulse);
-        Debug.Log(attacker.position);
     }
 
     public void PlayerDead() {
