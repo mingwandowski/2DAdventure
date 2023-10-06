@@ -1706,7 +1706,7 @@ Tilemap:
       - {fileID: 239634747, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -1719708924, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 215753956, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 6, y: 1, z: 0}
@@ -1794,7 +1794,7 @@ Tilemap:
       - {fileID: 1759557459, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: -1049652721, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
       - {fileID: 1474532220, guid: decd7c77598a24dd4bfcca0c0c0020dd, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 5, y: 4, z: 0}
@@ -2485,7 +2485,7 @@ Transform:
   m_GameObject: {fileID: 610152630}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.33, y: 2.21, z: 0}
+  m_LocalPosition: {x: 10.02, y: -0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2590,10 +2590,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   checkRadius: 0.08
   bottomOffset: {x: -0.05, y: 0}
+  cliffOffset: {x: 0, y: 0}
+  wallOffset: {x: 0, y: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
   isGround: 0
+  isAtCliff: 0
+  isFacingWall: 0
 --- !u!95 &610152637
 Animator:
   serializedVersion: 5
@@ -3268,6 +3272,7 @@ GameObject:
   - component: {fileID: 1290086460}
   - component: {fileID: 1290086459}
   - component: {fileID: 1290086462}
+  - component: {fileID: 1290086463}
   m_Layer: 8
   m_Name: Boar
   m_TagString: Untagged
@@ -3336,7 +3341,7 @@ Transform:
   m_GameObject: {fileID: 1290086453}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.05, y: 0.106, z: 0}
+  m_LocalPosition: {x: 4.386, y: -0.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3357,7 +3362,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -3446,8 +3451,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.063607626, y: 0.63260597}
-  m_Size: {x: 1.7279279, y: 1.2101792}
+  m_Offset: {x: -0.20214434, y: 0.6326059}
+  m_Size: {x: 1.9605765, y: 1.2101794}
   m_Direction: 1
 --- !u!114 &1290086459
 MonoBehaviour:
@@ -3522,7 +3527,30 @@ MonoBehaviour:
   normalSpeed: 100
   chaseSpeed: 260
   currentSpeed: 0
-  faceDir: {x: 0, y: 0, z: 0}
+  faceDir: -1
+  thinkTime: 2
+--- !u!114 &1290086463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290086453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 810e888e78817434696affab8f2efa98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkRadius: 0.1
+  bottomOffset: {x: -0.16, y: 0}
+  cliffOffset: {x: -1.05, y: 0}
+  wallOffset: {x: -1.4, y: 0.6}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  isGround: 0
+  isAtCliff: 0
+  isFacingWall: 0
 --- !u!1 &1560074926
 GameObject:
   m_ObjectHideFlags: 0
@@ -5870,7 +5898,7 @@ CompositeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:

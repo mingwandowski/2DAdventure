@@ -9,4 +9,10 @@ public class Boar : Enemy
         base.Move();
         anim.SetBool("walk", true);
     }
+
+    public override void Think()
+    {
+        base.Think();
+        anim.SetBool("walk", false);
+    }
 }

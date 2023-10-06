@@ -73,6 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         playerAnimation.PlayAttack();
         isAttack = true;
+        rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     public void GetHurt(Transform attacker) {
