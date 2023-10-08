@@ -3548,12 +3548,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0d0d10c6acf469f9a4b32dd5711fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  physicsCheck: {fileID: 0}
+  rb: {fileID: 0}
+  anim: {fileID: 0}
   normalSpeed: 100
   chaseSpeed: 260
   currentSpeed: 0
   faceDir: -1
   hurtForce: 3
+  checkSize: {x: 1, y: 1}
+  checkDistance: 6
+  attackLayer:
+    serializedVersion: 2
+    m_Bits: 128
   thinkTime: 2
+  thinkTimer: 0
+  isHurt: 0
+  isDead: 0
 --- !u!114 &1290086463
 MonoBehaviour:
   m_ObjectHideFlags: 0

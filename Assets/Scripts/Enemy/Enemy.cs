@@ -1,60 +1,76 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private PhysicsCheck physicsCheck;
-    Rigidbody2D rb;
-    protected Animator anim;
+    [HideInInspector] public PhysicsCheck physicsCheck;
+    [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public Animator anim;
+    
+    private BaseState currentState;
+    protected BaseState patrolState;
+    protected BaseState chaseState;
 
     public float normalSpeed;
     public float chaseSpeed;
     public float currentSpeed;
     public int faceDir = 1;
     public float hurtForce;
+    public Vector2 checkSize;
+    public float checkDistance;
+    public LayerMask attackLayer;
     public float thinkTime = 2f;
+    public float thinkTimer = 0f;
+    public float lostTargetTime = 5f;
+    public bool isHurt;
+    public bool isDead;
 
-    private float thinkTimer = 0f;
-    private bool isHurt;
-    private bool isDead;
-
-    private void Awake() {
+    protected virtual void Awake() {
         physicsCheck = GetComponent<PhysicsCheck>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         currentSpeed = normalSpeed;
     }
 
+    private void OnEnable() {
+        currentState = patrolState;
+        currentState.OnEnter(this);
+    }
+
     private void FixedUpdate() {
-        if (thinkTimer > 0) {
-            Think();
-        } else {
-            Move();
-        }
+        currentState.LogicUpdate();
     }
 
-    public virtual void Move() {
-        if (isHurt || isDead) return;
-        if (physicsCheck.isFacingWall || physicsCheck.isAtCliff) {
-            thinkTimer = thinkTime;
-            return;
-        }
-        
-        rb.velocity = new Vector2(faceDir * currentSpeed * Time.deltaTime, rb.velocity.y);
+    private void Update() {
+        Debug.Log(FoundPlayer());
+        currentState.PhysicsUpdate();
     }
 
-    public virtual void Think() {
-        thinkTimer -= Time.deltaTime;
-        if (thinkTimer <= 0) {
-            ChangeFaceDir();
-        }
+    private void OnDisable() {
+        currentState.OnExit();
     }
 
-    private void ChangeFaceDir() {
+    public void ChangeFaceDir() {
         physicsCheck.FaceDirChanged();
         faceDir = -faceDir;
         transform.localScale = new Vector3(-transform.localScale.x, 1, 1);
+    }
+
+    public bool FoundPlayer() {
+        return Physics2D.BoxCast((Vector2)transform.position + physicsCheck.wallOffset, checkSize, 0, new Vector2(faceDir, 0), checkDistance, attackLayer);
+    }
+
+    public void SwitchState(NPCState state) {
+        BaseState newState = state switch {
+            NPCState.Patrol => patrolState,
+            NPCState.Chase => chaseState,
+            _ => null
+        };
+
+        currentState.OnExit();
+        currentState = newState;
+        currentState.OnEnter(this);
     }
 
     public void OnTakeDamage(Transform attacker) {
@@ -85,5 +101,10 @@ public class Enemy : MonoBehaviour
 
     public void DestroyAfterAnimation() {
         Destroy(gameObject);
+    }
+
+    private void OnDrawGizmosSelected() {
+        // Physics2D.BoxCast
+        Gizmos.DrawWireSphere((Vector2)transform.position + GetComponent<PhysicsCheck>().wallOffset + new Vector2(faceDir, 0) * checkDistance, 0.2f);
     }
 }
