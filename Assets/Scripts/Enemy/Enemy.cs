@@ -43,7 +43,6 @@ public class Enemy : MonoBehaviour
     }
 
     private void Update() {
-        Debug.Log(FoundPlayer());
         currentState.PhysicsUpdate();
     }
 
