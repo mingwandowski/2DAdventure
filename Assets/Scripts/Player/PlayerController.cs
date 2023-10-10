@@ -1,28 +1,43 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public PlayerInputControl inputControl;
     private Rigidbody2D rb;
     private PhysicsCheck physicsCheck;
-    public Vector2 inputDirection;
-    public bool walk;
+    private PlayerAnimation playerAnimation;
+    private CapsuleCollider2D coll;
 
-    [Header("Movement")]
-    public float speed = 200f;
-    public float jumpForce = 5f;
+    public PlayerInputControl inputControl;
+    public Vector2 inputDirection;
+
+    public PhysicsMaterial2D normal;
+    public PhysicsMaterial2D wall;
 
     private int faceDir = 1;
+    public float speed = 200f;
+    public float jumpForce = 5f;
+    public float hurtForce;
+
+    public bool isWalk;
+    public bool isHurt;
+    public bool isDead;
+    public bool isAttack;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
         physicsCheck = GetComponent<PhysicsCheck>();
+        playerAnimation = GetComponent<PlayerAnimation>();
+        coll = GetComponent<CapsuleCollider2D>();
         inputControl = new PlayerInputControl();
         inputControl.Gameplay.Jump.started += Jump;
+        inputControl.Gameplay.Attack.started += PlayerAttack;
+        inputControl.Gameplay.Interactive.started += ChangeScene;
     }
 
     private void OnEnable() {
@@ -35,7 +50,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update() {
         inputDirection = inputControl.Gameplay.Move.ReadValue<Vector2>();
-        walk = inputControl.Gameplay.Walk.IsPressed();
+        isWalk = inputControl.Gameplay.Walk.IsPressed();
+        CheckState();
     }
 
     private void FixedUpdate() {
@@ -43,8 +59,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Move() {
+        if (isHurt || isAttack) return;
         float moveSpeed = inputDirection.x * speed * Time.deltaTime;
-        rb.velocity = new Vector2(walk ? moveSpeed / 2 : moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(isWalk ? moveSpeed / 2 : moveSpeed, rb.velocity.y);
         faceDir = inputDirection.x == 0 ? faceDir : inputDirection.x > 0 ? 1 : -1;
         transform.localScale = new Vector3(faceDir, 1, 1);
     }
@@ -53,5 +70,35 @@ public class PlayerController : MonoBehaviour
     {
         if(physicsCheck.isGround)
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+    }
+
+    private void PlayerAttack(InputAction.CallbackContext context)
+    {
+        playerAnimation.PlayAttack();
+        isAttack = true;
+        rb.velocity = new Vector2(0, rb.velocity.y);
+    }
+
+    private void ChangeScene(InputAction.CallbackContext context)
+    {
+        if (physicsCheck.isInFrontOfDoor) {
+            // Change scene to next level
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+    }
+
+    public void GetHurt(Transform attacker) {
+        isHurt = true;
+        rb.velocity = Vector2.zero;
+        rb.AddForce((transform.position - attacker.position).normalized * hurtForce, ForceMode2D.Impulse);
+    }
+
+    public void PlayerDead() {
+        isDead = true;
+        inputControl.Gameplay.Disable();
+    }
+
+    private void CheckState() {
+        coll.sharedMaterial = physicsCheck.isGround ? normal : wall;
     }
 }
