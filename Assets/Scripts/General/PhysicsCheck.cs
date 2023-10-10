@@ -10,11 +10,13 @@ public class PhysicsCheck : MonoBehaviour
     public Vector2 cliffOffset;
     public Vector2 wallOffset;
     public LayerMask groundLayer;
+    public LayerMask doorLayer;
 
     [Header("Check Status")]
     public bool isGround;
     public bool isAtCliff;
     public bool isFacingWall;
+    public bool isInFrontOfDoor;
     
     void Update()
     {
@@ -25,6 +27,7 @@ public class PhysicsCheck : MonoBehaviour
         isGround = Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset, checkRadius, groundLayer);
         isAtCliff = isGround && !Physics2D.OverlapCircle((Vector2)transform.position + cliffOffset, checkRadius, groundLayer);
         isFacingWall = Physics2D.OverlapCircle((Vector2)transform.position + wallOffset, checkRadius, groundLayer);
+        isInFrontOfDoor = Physics2D.OverlapCircle((Vector2)transform.position + wallOffset, checkRadius, doorLayer);
     }
 
     private void OnDrawGizmosSelected() {

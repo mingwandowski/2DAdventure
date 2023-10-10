@@ -33,7 +33,6 @@ public class Character : MonoBehaviour
     }
 
     private void OnTriggerStay2D(Collider2D other) {
-        Debug.Log(other.gameObject.name);
         if (other.gameObject.CompareTag("Water")) {
             currentHealth = 0;
             OnHealthChange?.Invoke(this);
@@ -42,7 +41,6 @@ public class Character : MonoBehaviour
     }
 
     public void TakeDamage(Attack attacker) {
-        // Debug.Log(attacker.damage);
         if (isInvulnerable) return;
         currentHealth -= attacker.damage;
         if (currentHealth <= 0) {
